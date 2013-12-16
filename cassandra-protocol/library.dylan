@@ -4,7 +4,7 @@ define library cassandra-protocol
   use dylan;
   use common-dylan;
 
-  export cassandra;-protocol
+  export cassandra-protocol;
 end library;
 
 define module cassandra-protocol
