@@ -1,3 +1,6 @@
 [submodule "ext/tracing"]
 	path = ext/tracing
 	url = git://github.com/dylan-foundry/tracing.git
+[submodule "ext/binary-data"]
+	path = ext/binary-data
+	url = git://github.com/dylan-lang/binary-data.git
