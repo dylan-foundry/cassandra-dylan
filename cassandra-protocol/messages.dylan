@@ -4,11 +4,11 @@ author: Bruce Mitchener, Jr.
 copyright: See LICENSE file in this distribution.
 
 define abstract binary-data cassandra-message (variably-typed-container-frame)
-  field version :: <unsigned-byte>;
-  field flags :: <unsigned-byte>;
-  field stream :: <unsigned-byte>; // XXX: Should be signed
-  layering field opcode :: <unsigned-byte>;
-  field length :: <big-endian-unsigned-integer-4byte>;
+  field message-version :: <unsigned-byte>;
+  field message-flags :: <unsigned-byte>;
+  field message-stream :: <unsigned-byte>; // XXX: Should be signed
+  layering field message-opcode :: <unsigned-byte>;
+  field message-length :: <big-endian-unsigned-integer-4byte>;
 end;
 
 define binary-data cassandra-error (cassandra-message)
