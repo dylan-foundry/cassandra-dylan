@@ -13,14 +13,18 @@ end;
 
 define binary-data cassandra-error (cassandra-message)
   over <cassandra-message> #x00;
+  field error-code :: <cassandra-int>;
+  field error-message :: <cassandra-string>;
 end;
 
 define binary-data cassandra-startup (cassandra-message)
   over <cassandra-message> #x01;
+  field startup-options :: <cassandra-string-map>;
 end;
 
 define binary-data cassandra-ready (cassandra-message)
   over <cassandra-message> #x02;
+  // No more fields.
 end;
 
 define binary-data cassandra-authenticate (cassandra-message)
@@ -30,14 +34,17 @@ end;
 // This is for version 1 of the binary-data only
 define binary-data cassandra-credentials (cassandra-message)
   over <cassandra-message> #x04;
+  field credentials :: <cassandra-string-map>;
 end;
 
 define binary-data cassandra-options (cassandra-message)
   over <cassandra-message> #x05;
+  // No more fields
 end;
 
 define binary-data cassandra-supported (cassandra-message)
   over <cassandra-message> #x06;
+  field supported-option-values :: <cassandra-string-multimap>;
 end;
 
 define binary-data cassandra-query (cassandra-message)
@@ -50,6 +57,7 @@ end;
 
 define binary-data cassandra-prepare (cassandra-message)
   over <cassandra-message> #x09;
+  field prepare-query :: <cassandra-long-string>;
 end;
 
 define binary-data cassandra-execute (cassandra-message)
@@ -58,6 +66,7 @@ end;
 
 define binary-data cassandra-register (cassandra-message)
   over <cassandra-message> #x0B;
+  field register-event-list :: <cassandra-string-list>;
 end;
 
 define binary-data cassandra-event (cassandra-message)
