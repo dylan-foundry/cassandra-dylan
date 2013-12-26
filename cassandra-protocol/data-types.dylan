@@ -48,3 +48,26 @@ define binary-data cassandra-string-multimap (container-frame)
   repeated field string-multimap-contents :: <cassandra-string-multimap-item>,
     count: frame.string-multimap-count;
 end;
+
+define binary-data cassandra-inet-ipv4-address-data (container-frame)
+  field ipv4-address-data :: <raw-frame>,
+    static-length: 4;
+end;
+
+define binary-data cassandra-inet-ipv6-address-data (container-frame)
+  field ipv6-address-data :: <raw-frame>,
+    static-length: 16;
+end;
+
+define binary-data cassandra-inet (container-frame)
+  enum field address-family :: <unsigned-byte> = 0,
+    mappings: {  4 <=> #"IPv4",
+                16 <=> #"IPv6" };
+  variably-typed-field address, type-function:
+    if (frame.address-family == #"IPv4")
+      <cassandra-inet-ipv4-address-data>
+    elseif (frame.address-family == #"IPv6")
+      <cassandra-inet-ipv6-address-data>
+    end if;
+  field inet-port :: <cassandra-int>;
+end;
