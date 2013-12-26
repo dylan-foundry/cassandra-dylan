@@ -71,6 +71,33 @@ end;
 
 define binary-data cassandra-event (cassandra-message)
   over <cassandra-message> #x0C;
+  field event-type :: <cassandra-string>;
+  variably-typed-field event-data, type-function:
+    if (frame.event-type == "TOPOLOGY_CHANGE")
+      <cassandra-event-topology-change-data>
+    elseif (frame.event-type == "STATUS_CHANGE")
+      <cassandra-event-status-change-data>
+    elseif (frame.event-type == "SCHEMA_CHANGE")
+      <cassandra-event-schema-change-data>
+    else
+      // XXX: What to do?
+    end if;
+end;
+
+define binary-data cassandra-event-topology-change-data (container-frame)
+  field topology-change-type :: <cassandra-string>;
+  field topology-change-address :: <cassandra-inet>;
+end;
+
+define binary-data cassandra-event-status-change-data (container-frame)
+  field status-change-type :: <cassandra-string>;
+  field status-change-address :: <cassandra-inet>;
+end;
+
+define binary-data cassandra-event-schema-change-data (container-frame)
+  field schema-change-type :: <cassandra-string>;
+  field schema-change-keyspace :: <cassandra-string>;
+  field schema-change-table :: <cassandra-string>;
 end;
 
 define binary-data cassandra-batch (cassandra-message)
