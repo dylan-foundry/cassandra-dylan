@@ -11,6 +11,8 @@ define abstract binary-data cassandra-message (variably-typed-container-frame)
   field message-length :: <big-endian-unsigned-integer-4byte>;
 end;
 
+ignore(cassandra-message);
+
 define binary-data cassandra-error (cassandra-message)
   over <cassandra-message> #x00;
   field error-code :: <cassandra-int>;
