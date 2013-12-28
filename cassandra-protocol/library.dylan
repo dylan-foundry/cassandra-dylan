@@ -22,6 +22,7 @@ define module cassandra-protocol
     <cassandra-short-bytes>, cassandra-short-bytes,
     bytes-length, bytes-data,
     <cassandra-string-list>, cassandra-string-list,
+    string-list-count, string-list,
     <cassandra-string-map-item>, cassandra-string-map-item,
     <cassandra-string-map>, cassandra-string-map,
     <cassandra-string-multimap-item>, cassandra-string-multimap-item,
