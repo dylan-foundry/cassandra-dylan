@@ -8,35 +8,40 @@ define constant <cassandra-short> = <2byte-big-endian-unsigned-integer>;
 define constant <cassandra-int> = <big-endian-unsigned-integer-4byte>;
 
 define binary-data cassandra-string (container-frame)
-  field string-length :: <cassandra-short>;
+  field string-length :: <cassandra-short>,
+    fixup: byte-offset(frame-size(frame.string-data));
   field string-data :: <externally-delimited-string>
     = $empty-externally-delimited-string,
     length: frame.string-length * 8;
 end;
 
 define binary-data cassandra-long-string (container-frame)
-  field string-length :: <cassandra-int>;
+  field string-length :: <cassandra-int>,
+    fixup: byte-offset(frame-size(frame.string-data));
   field string-data :: <externally-delimited-string>
     = $empty-externally-delimited-string,
     length: frame.string-length * 8;
 end;
 
 define binary-data cassandra-bytes (container-frame)
-  field bytes-length :: <cassandra-int>;
+  field bytes-length :: <cassandra-int>,
+    fixup: byte-offset(frame-size(frame.bytes-data));
   field bytes-data :: <raw-frame>
     = $empty-raw-frame,
     length: frame.bytes-length * 8;
 end;
 
 define binary-data cassandra-short-bytes (container-frame)
-  field bytes-length :: <cassandra-short>;
+  field bytes-length :: <cassandra-short>,
+    fixup: byte-offset(frame-size(frame.bytes-data));
   field bytes-data :: <raw-frame>
     = $empty-raw-frame,
     length: frame.bytes-length * 8;
 end;
 
 define binary-data cassandra-string-list (container-frame)
-  field string-list-count :: <cassandra-short>;
+  field string-list-count :: <cassandra-short>,
+    fixup: byte-offset(frame-size(frame.string-list));
   repeated field string-list :: <cassandra-string>,
     count: frame.string-list-count;
 end;
