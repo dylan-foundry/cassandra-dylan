@@ -21,6 +21,20 @@ define binary-data cassandra-long-string (container-frame)
     length: frame.string-length * 8;
 end;
 
+define binary-data cassandra-bytes (container-frame)
+  field bytes-length :: <cassandra-int>;
+  field bytes-data :: <raw-frame>
+    = $empty-raw-frame,
+    length: frame.bytes-length * 8;
+end;
+
+define binary-data cassandra-short-bytes (container-frame)
+  field bytes-length :: <cassandra-short>;
+  field bytes-data :: <raw-frame>
+    = $empty-raw-frame,
+    length: frame.bytes-length * 8;
+end;
+
 define binary-data cassandra-string-list (container-frame)
   field string-list-count :: <cassandra-short>;
   repeated field string-list :: <cassandra-string>,
