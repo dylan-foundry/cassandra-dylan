@@ -7,6 +7,9 @@ define suite data-type-test-suite ()
 end suite;
 
 define test cassandra-string-test ()
+  let cassandra-string = parse-frame(<cassandra-string>, #(0, 2, 65, 66));
+  assert-equal(cassandra-string.string-length, 2);
+  assert-equal(as(<string>, cassandra-string.string-data), "AB");
 end test;
 
 define test cassandra-long-string-test ()
