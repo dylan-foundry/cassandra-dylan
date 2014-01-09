@@ -13,6 +13,10 @@ define test cassandra-string-test ()
   let cassandra-string = parse-frame(<cassandra-string>, #(0, 2, #x41, #x42));
   assert-equal(cassandra-string.string-length, 2);
   assert-equal(as(<string>, cassandra-string.string-data), "AB");
+  let c-s = make(<cassandra-string>, string-data: as(<externally-delimited-string>, "AB"));
+  let c-s-bytes = assemble-frame(c-s);
+  assert-equal(c-s-bytes.packet.size, 4);
+  assert-equal(c-s-bytes.packet, #(0, 2, #x41, #x42));
 end test;
 
 define test cassandra-long-string-test ()
