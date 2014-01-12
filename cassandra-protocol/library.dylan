@@ -15,6 +15,7 @@ define module cassandra-protocol
   export
     <cassandra-short>,
     <cassandra-int>,
+    <string-vec>,
     <cassandra-string>, cassandra-string,
     <cassandra-long-string>, cassandra-long-string,
     string-length, string-data,
