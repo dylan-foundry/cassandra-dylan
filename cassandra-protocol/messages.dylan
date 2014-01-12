@@ -3,12 +3,16 @@ synopsis: A client implementation for Cassandra.
 author: Bruce Mitchener, Jr.
 copyright: See LICENSE file in this distribution.
 
+
+
 define abstract binary-data cassandra-message (variably-typed-container-frame)
+  length round(byte-vector-to-float-be(frame.message-length.data)) * 8;
   field message-version :: <unsigned-byte>;
   field message-flags :: <unsigned-byte>;
   field message-stream :: <unsigned-byte>; // XXX: Should be signed
   layering field message-opcode :: <unsigned-byte>;
-  field message-length :: <big-endian-unsigned-integer-4byte>;
+  field message-length :: <big-endian-unsigned-integer-4byte>,
+    fixup: float-to-byte-vector-be(as(<double-float>, byte-offset(frame-size(frame))));
 end;
 
 ignore(cassandra-message);
@@ -74,7 +78,7 @@ end;
 define binary-data cassandra-event (cassandra-message)
   over <cassandra-message> #x0C;
   field event-type :: <cassandra-string>;
-  variably-typed-field event-data, type-function:
+  variably-typed field event-data, type-function:
     if (frame.event-type == "TOPOLOGY_CHANGE")
       <cassandra-event-topology-change-data>
     elseif (frame.event-type == "STATUS_CHANGE")
@@ -83,6 +87,8 @@ define binary-data cassandra-event (cassandra-message)
       <cassandra-event-schema-change-data>
     else
       // XXX: What to do?
+      // hannes would either error() or return <raw-frame>
+      <raw-frame>
     end if;
 end;
 
