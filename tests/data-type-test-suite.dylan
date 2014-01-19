@@ -1,14 +1,6 @@
 module: cassandra-test-suite
 synopsis: Test suite for the Cassandra data-types.
 
-define suite data-type-test-suite ()
-  test cassandra-string-test;
-  test cassandra-long-string-test;
-  test cassandra-bytes-test;
-  test cassandra-short-bytes-test;
-  test cassandra-string-list-test;
-end suite;
-
 define test cassandra-string-test ()
   let cassandra-string = parse-frame(<cassandra-string>, #(0, 2, #x41, #x42));
   assert-equal(cassandra-string.string-length, 2);
@@ -49,3 +41,11 @@ define test cassandra-string-list-test ()
   assert-equal(eles[0], "AB");
   assert-equal(eles[1], "CD");
 end test;
+
+define suite data-type-test-suite ()
+  test cassandra-string-test;
+  test cassandra-long-string-test;
+  test cassandra-bytes-test;
+  test cassandra-short-bytes-test;
+  test cassandra-string-list-test;
+end suite;
